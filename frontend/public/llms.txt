@@ -1,0 +1,20 @@
+# JobGuard AI
+
+JobGuard AI is a web security application for investigating public job postings and identifying suspicious redirects, unsafe URLs, credential collection flows, payment-related signals, and other job-scam indicators.
+
+## Public pages
+- https://job-guardai-musa.vercel.app/ — product overview and primary call to action.
+- https://job-guardai-musa.vercel.app/privacy — privacy policy.
+- https://job-guardai-musa.vercel.app/terms — terms and conditions.
+
+## Capabilities
+- Automated public job URL investigations.
+- Browser-based evidence collection.
+- Redirect and domain observation.
+- Rule-based security findings.
+- Risk scoring and severity classification.
+- AI-assisted report summaries.
+- Authenticated investigation history and reports.
+
+## Important limitation
+Automated findings are informational and can contain false positives or false negatives. Users should independently verify important decisions.

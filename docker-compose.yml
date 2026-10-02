@@ -1,0 +1,44 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: jobguard-backend:latest
+    container_name: jobguard-backend
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./backend/.env
+    environment:
+      NODE_ENV: production
+      MONGODB_URI: ${MONGODB_URI:-mongodb://mongo:27017/jobguard_ai}
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:-change_this_access_secret_please}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-change_this_refresh_secret_please}
+      JWT_ACCESS_EXPIRES_IN: ${JWT_ACCESS_EXPIRES_IN:-15m}
+      JWT_REFRESH_EXPIRES_IN: ${JWT_REFRESH_EXPIRES_IN:-7d}
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:5173}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - mongo
+    restart: unless-stopped
+
+  scanner:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.scanner
+    image: jobguard-scanner:latest
+    profiles:
+      - build
+
+  mongo:
+    image: mongo:4.4.29
+    container_name: jobguard-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: unless-stopped
+
+volumes:
+  mongo_data:

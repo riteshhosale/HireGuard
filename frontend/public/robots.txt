@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /scan
+Disallow: /history
+Disallow: /profile
+Disallow: /report/
+Disallow: /api/
+
+Sitemap: https://job-guardai-musa.vercel.app/sitemap.xml

@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+@import "tailwindcss";
+
+:root { font-family: 'DM Sans', sans-serif; color: #172033; background: #f3f3fa; font-synthesis: none; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; min-width: 320px; overflow-x: hidden; }
+button, input, textarea, select { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+.font-display { font-family: 'Space Grotesk', sans-serif; }
+.dashboard-card { border: 1px solid #e7e7ef; background: #fff; border-radius: 18px; box-shadow: 0 8px 28px rgba(31, 36, 64, .045); }
+.soft-grid { background-image: linear-gradient(#e9e9f2 1px, transparent 1px), linear-gradient(90deg, #e9e9f2 1px, transparent 1px); background-size: 28px 28px; }
+.risk-ring { background: conic-gradient(#4f46e5 0deg 245deg, #ef4444 245deg 300deg, #d8d9e2 300deg 360deg); }
+.risk-ring-inner { background: #fff; }
+@media (prefers-reduced-motion: no-preference) { .page-enter { animation: page-enter .25s ease both; } @keyframes page-enter { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } } }
+
+/* Mobile safety: prevent accidental horizontal overflow from long URLs, cards and tables. */
+html, body, #root { max-width: 100%; }
+body { overflow-x: hidden; }
+img, svg, video, canvas { max-width: 100%; }
+button, a, input, textarea, select { max-width: 100%; }
+.break-anywhere { overflow-wrap: anywhere; word-break: break-word; }
+.safe-scroll { max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+@media (max-width: 767px) {
+  .dashboard-card { border-radius: 16px; }
+  main { min-width: 0; }
+}
+
+/* Launch-readiness accessibility and mobile rules */
+:focus-visible { outline: 3px solid rgba(79, 70, 229, .45); outline-offset: 2px; }
+.prose h2 { margin: 1.75rem 0 .55rem; font-family: 'Space Grotesk', sans-serif; font-size: 1.15rem; font-weight: 700; color: #172033; }
+.prose p { margin: .6rem 0; }
+@media (max-width: 767px) {
+  h1 { overflow-wrap: anywhere; }
+  table { max-width: 100%; }
+  .dashboard-card { box-shadow: 0 5px 20px rgba(31,36,64,.045); }
+}
+/* Improve small-text contrast across light surfaces. */
+.text-slate-400 { color: #64748b !important; }
