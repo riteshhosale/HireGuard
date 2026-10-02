@@ -33,7 +33,7 @@ export default function Profile() {
 
   return (
     <Layout>
-      <Seo title="User Profile" description="Manage your JobGuard AI account and review your job-safety investigation activity." path="/profile" noindex />
+      <Seo title="User Profile" description="Manage your HireGuard AI account and review your job-safety investigation activity." path="/profile" noindex />
         <Breadcrumbs items={[{ label: "Profile", to: "/profile" }]} />
       <div className="page-enter mx-auto max-w-[1280px]">
         <div className="mb-5"><p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-indigo-500">Account center</p><h1 className="mt-1 font-display text-3xl font-bold tracking-tight">User profile</h1><p className="mt-1 text-xs text-slate-400">Your account, scan activity and security workspace.</p></div>

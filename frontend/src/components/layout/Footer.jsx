@@ -10,7 +10,7 @@ export default function Footer() {
       <div className="mx-auto flex max-w-7xl flex-col gap-5 px-5 py-7 lg:px-8">
         <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="font-display text-sm font-extrabold">JobGuard<span className="text-[#4f46e5]"> AI</span></p>
+            <p className="font-display text-sm font-extrabold">HireGuard<span className="text-[#4f46e5]"> AI</span></p>
             <p className="mt-1 text-xs text-slate-500">AI-powered job scam investigation and risk analysis.</p>
           </div>
           <nav aria-label="Footer navigation" className="flex flex-wrap items-center gap-4 text-xs font-semibold text-slate-500">
@@ -20,7 +20,7 @@ export default function Footer() {
             <Link to="/privacy" className="hover:text-indigo-600">Privacy</Link>
             <Link to="/terms" className="hover:text-indigo-600">Terms</Link>
             <span className="hidden h-4 w-px bg-slate-200 sm:block" />
-            <span>© {new Date().getFullYear()} JobGuard AI</span>
+            <span>© {new Date().getFullYear()} HireGuard AI</span>
           </nav>
         </div>
 

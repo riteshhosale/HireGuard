@@ -35,7 +35,7 @@ export default function History() {
 
   return (
     <Layout>
-      <Seo title="Scan History" description="Review previous JobGuard AI job investigations and reopen security reports." path="/history" noindex />
+      <Seo title="Scan History" description="Review previous HireGuard AI job investigations and reopen security reports." path="/history" noindex />
         <Breadcrumbs items={[{ label: "History", to: "/history" }]} />
       <div className="page-enter mx-auto max-w-[1280px]">
         <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"><div><p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-indigo-500">Investigation archive</p><h1 className="mt-1 font-display text-3xl font-bold tracking-tight">Scan history</h1><p className="mt-1 text-xs text-slate-400">Review every job investigation and reopen its report.</p></div><button onClick={load} className="inline-flex w-fit items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-xs font-extrabold text-slate-600 shadow-sm ring-1 ring-slate-200"><RefreshCw size={14} className={loading ? "animate-spin" : ""}/> Refresh</button></div>

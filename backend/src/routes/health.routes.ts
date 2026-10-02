@@ -5,7 +5,7 @@ const router = Router();
 router.get("/", (_req, res) => {
   res.json({
     success: true,
-    service: "JobGuard AI API",
+    service: "HireGuard AI API",
     status: "healthy",
     timestamp: new Date().toISOString(),
   });

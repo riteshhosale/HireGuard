@@ -16,7 +16,7 @@ const CreatePost = lazy(() => import("../pages/community/CreatePost"));
 const PostDetails = lazy(() => import("../pages/community/PostDetails"));
 
 function RouteFallback() {
-  return <div className="grid min-h-[60vh] place-items-center text-sm font-bold text-slate-400">Loading JobGuard AI…</div>;
+  return <div className="grid min-h-[60vh] place-items-center text-sm font-bold text-slate-400">Loading HireGuard AI…</div>;
 }
 
 export default function AppRoutes() {

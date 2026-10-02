@@ -13,7 +13,7 @@ export default class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(error) {
-    if (import.meta.env.DEV) console.error("JobGuard UI error:", error);
+    if (import.meta.env.DEV) console.error("HireGuard UI error:", error);
   }
 
   render() {
@@ -26,7 +26,7 @@ export default class ErrorBoundary extends React.Component {
           </div>
           <p className="mt-6 text-[10px] font-extrabold uppercase tracking-[0.18em] text-red-500">Something went wrong</p>
           <h1 className="mt-2 font-display text-2xl font-bold tracking-tight text-slate-900">The page could not be displayed</h1>
-          <p className="mt-3 text-sm leading-6 text-slate-500">A temporary interface error occurred. Reload the page or return to the JobGuard dashboard.</p>
+          <p className="mt-3 text-sm leading-6 text-slate-500">A temporary interface error occurred. Reload the page or return to the HireGuard dashboard.</p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <button type="button" onClick={() => window.location.reload()} className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-xs font-extrabold text-white">
               <RefreshCw size={14} /> Reload page

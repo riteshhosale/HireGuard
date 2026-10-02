@@ -30,12 +30,12 @@ export default function Report() {
 
   if (loading) return <Layout><div className="grid min-h-[60vh] place-items-center"><div className="text-center"><LoaderCircle size={35} className="mx-auto animate-spin text-indigo-600"/><p className="mt-3 text-xs font-bold text-slate-400">Loading report...</p></div></div></Layout>;
   if (error) return <Layout>
-    <Seo title="Security Report" description="JobGuard AI security report for a scanned job posting." path={reportPath} noindex />
+    <Seo title="Security Report" description="HireGuard AI security report for a scanned job posting." path={reportPath} noindex />
     <Breadcrumbs items={[{ label: "History", to: "/history" }, { label: "Report", to: reportPath }]} /><div className="mx-auto max-w-xl py-16"><div className="dashboard-card p-8 text-center"><CircleAlert size={40} className="mx-auto text-red-500"/><h1 className="mt-4 font-display text-2xl font-bold">Unable to load report</h1><p className="mt-2 text-xs text-slate-500">{error}</p><Link to="/history" className="mt-5 inline-flex items-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-xs font-extrabold text-white"><ArrowLeft size={14}/> Back to history</Link></div></div></Layout>;
 
   return (
     <Layout>
-      <Seo title="Security Report" description="Review the evidence, findings and risk assessment for a JobGuard AI investigation." path={reportPath} noindex />
+      <Seo title="Security Report" description="Review the evidence, findings and risk assessment for a HireGuard AI investigation." path={reportPath} noindex />
       <Breadcrumbs items={[{ label: "History", to: "/history" }, { label: "Report", to: reportPath }]} />
       <div className="page-enter mx-auto max-w-[1280px]">
         <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between"><div><Link to="/history" className="inline-flex items-center gap-1 text-[10px] font-extrabold text-slate-400 hover:text-indigo-600"><ArrowLeft size={13}/> Back to history</Link><h1 className="mt-2 font-display text-3xl font-bold tracking-tight">Security report</h1><p className="mt-1 truncate text-xs text-slate-400">{scan?.jobUrl || scan?.url || "Job posting investigation"}</p></div><span className={`inline-flex w-fit items-center gap-2 rounded-full px-3 py-2 text-[9px] font-extrabold ${danger ? "bg-red-50 text-red-600" : medium ? "bg-amber-50 text-amber-600" : "bg-emerald-50 text-emerald-600"}`}>{danger ? <TriangleAlert size={14}/> : <ShieldCheck size={14}/>} {level}</span></div>

@@ -9,7 +9,7 @@ async function startServer(): Promise<void> {
 
     app.listen(env.PORT, "0.0.0.0", () => {
       console.log(
-        `JobGuard AI API running on port ${env.PORT}`,
+        `HireGuard AI API running on port ${env.PORT}`,
       );
     });
   } catch (error) {

@@ -84,11 +84,11 @@ export default function Scan() {
 
   return (
     <Layout>
-      <Seo title="Scan a Job Posting" description="Scan a public job posting URL with JobGuard AI for suspicious redirects, forms, domains and scam signals." path="/scan" noindex />
+      <Seo title="Scan a Job Posting" description="Scan a public job posting URL with HireGuard AI for suspicious redirects, forms, domains and scam signals." path="/scan" noindex />
         <Breadcrumbs items={[{ label: "Scan a job", to: "/scan" }]} />
       <div className="page-enter mx-auto max-w-[1280px]">
         <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div><p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-indigo-500">Security scanner</p><h1 className="mt-1 font-display text-3xl font-bold tracking-tight">Scan a job posting</h1><p className="mt-1 text-xs text-slate-400">Paste a public job URL and let JobGuard investigate it.</p></div>
+          <div><p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-indigo-500">Security scanner</p><h1 className="mt-1 font-display text-3xl font-bold tracking-tight">Scan a job posting</h1><p className="mt-1 text-xs text-slate-400">Paste a public job URL and let HireGuard investigate it.</p></div>
           <span className="inline-flex w-fit items-center gap-2 rounded-full bg-white px-3 py-2 text-[10px] font-extrabold text-slate-500 shadow-sm"><ShieldCheck size={14} className="text-indigo-500"/> Safe investigation mode</span>
         </div>
 
@@ -110,7 +110,7 @@ export default function Scan() {
           <section className="dashboard-card p-6">
             <div className="flex items-center justify-between"><div><h2 className="font-display text-lg font-bold">How it works</h2><p className="text-[11px] text-slate-400">Three layers of protection</p></div><span className="rounded-lg bg-indigo-50 px-2 py-1 text-[9px] font-extrabold text-indigo-600">SECURE</span></div>
             <div className="mt-6 space-y-5">{[["01", "Safe browser", "The target is opened in an isolated investigation flow."], ["02", "Evidence", "Redirects, forms and suspicious signals are collected."], ["03", "Risk report", "The findings are combined into a readable risk assessment."]].map(([n, title, text]) => <div key={n} className="flex gap-4"><span className="grid h-9 w-9 shrink-0 place-items-center rounded-xl bg-indigo-50 text-[10px] font-extrabold text-indigo-600">{n}</span><div><p className="text-sm font-extrabold text-slate-800">{title}</p><p className="mt-1 text-[11px] leading-5 text-slate-400">{text}</p></div></div>)}</div>
-            <div className="mt-7 rounded-2xl bg-slate-900 p-4 text-white"><p className="flex items-center gap-2 text-xs font-extrabold"><ShieldCheck size={15} className="text-indigo-300"/> Investigation policy</p><p className="mt-2 text-[10px] leading-5 text-slate-400">Use JobGuard to inspect job postings. Do not submit passwords, payment details or private credentials to a suspicious site.</p></div>
+            <div className="mt-7 rounded-2xl bg-slate-900 p-4 text-white"><p className="flex items-center gap-2 text-xs font-extrabold"><ShieldCheck size={15} className="text-indigo-300"/> Investigation policy</p><p className="mt-2 text-[10px] leading-5 text-slate-400">Use HireGuard to inspect job postings. Do not submit passwords, payment details or private credentials to a suspicious site.</p></div>
           </section>
         </div>
 

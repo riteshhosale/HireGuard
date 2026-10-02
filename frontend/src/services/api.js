@@ -82,7 +82,7 @@ export const api = {
       );
     } catch {
       throw new Error(
-        "Unable to connect to JobGuard backend. If the backend is waking up (Render free tier), please wait 30-50 seconds and try again.",
+        "Unable to connect to HireGuard backend. If the backend is waking up (Render free tier), please wait 30-50 seconds and try again.",
       );
     }
 

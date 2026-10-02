@@ -57,7 +57,7 @@ async function createTokens(
 }
 
 /**
- * Register a new JobGuard AI user.
+ * Register a new HireGuard AI user.
  */
 export async function registerUser(
   input: RegisterInput,

@@ -31,7 +31,7 @@ const statusOf = (scan) => String(scan?.status || "").toUpperCase();
 const localBusinessSchema = {
   "@type": "LocalBusiness",
   "@id": "https://job-guardai-musa.vercel.app/#local-business",
-  name: "JobGuard AI",
+  name: "HireGuard AI",
   url: "https://job-guardai-musa.vercel.app/",
   description:
     "Web security and job-scam investigation service for safer online job applications.",
@@ -126,7 +126,7 @@ export default function Home() {
       <Layout>
         <Seo
           title="AI Job Scam Investigation"
-          description="Investigate job postings for suspicious redirects, unsafe URLs, credential collection and scam indicators with JobGuard AI."
+          description="Investigate job postings for suspicious redirects, unsafe URLs, credential collection and scam indicators with HireGuard AI."
           path="/"
           schema={localBusinessSchema}
         />
@@ -142,7 +142,7 @@ export default function Home() {
                   Find risky jobs before they find you.
                 </h1>
                 <p className="mt-5 max-w-xl text-sm leading-6 text-indigo-100">
-                  JobGuard AI investigates job postings, observes suspicious
+                  HireGuard AI investigates job postings, observes suspicious
                   behaviour and turns the evidence into a clear safety report.
                 </p>
                 <div className="mt-8 flex flex-wrap gap-3">
@@ -170,7 +170,7 @@ export default function Home() {
                   <div>
                     <p className="text-sm font-extrabold">Security overview</p>
                     <p className="text-[11px] text-slate-400">
-                      What JobGuard checks
+                      What HireGuard checks
                     </p>
                   </div>
                 </div>
@@ -243,7 +243,7 @@ export default function Home() {
     <Layout>
       <Seo
         title="Security Dashboard"
-        description="Review JobGuard AI job-safety investigations, risk levels and recent scan activity."
+        description="Review HireGuard AI job-safety investigations, risk levels and recent scan activity."
         path="/"
         noindex
       />
@@ -251,7 +251,7 @@ export default function Home() {
         <div className="mb-5 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
             <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-slate-400">
-              JobGuard workspace
+              HireGuard workspace
             </p>
             <h2 className="mt-1 font-display text-3xl font-bold tracking-tight text-slate-900">
               Dashboard
@@ -279,7 +279,7 @@ export default function Home() {
               </h2>
               <p className="mt-1 max-w-2xl text-[11px] leading-5 text-slate-500">
                 Help other job seekers recognize warning signs. You can attach a
-                JobGuardAI scan to a community report.
+                HireGuard AI scan to a community report.
               </p>
             </div>
           </div>

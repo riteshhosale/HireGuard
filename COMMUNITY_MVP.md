@@ -1,7 +1,7 @@
 # JobGuard Community MVP
 
 ## Purpose
-A security-focused community where job seekers can share reported job-scam experiences and optionally attach JobGuardAI scan results.
+A security-focused community where job seekers can share reported job-scam experiences and optionally attach HireGuard AI scan results.
 
 ## Frontend routes
 - `/community`

@@ -104,7 +104,7 @@ This project is currently licensed under the ISC license in the backend package 
 
 The frontend includes clean URL handling, a custom 404 route, per-route page titles and descriptions, canonical URLs, robots.txt, sitemap.xml, llms.txt, Open Graph/Twitter share metadata, a branded share image, structured data, breadcrumb markup, route-based code splitting, disabled production source maps, and security response headers.
 
-Set `VITE_SITE_URL` to the final custom domain when the domain is connected in Vercel. The current value points to the existing JobGuard AI Vercel deployment and can be changed without editing source code.
+Set `VITE_SITE_URL` to the final custom domain when the domain is connected in Vercel. The current value points to the existing HireGuard AI Vercel deployment and can be changed without editing source code.
 
 ## Launch-readiness updates
 
@@ -114,6 +114,6 @@ The backend includes request body limits, configured CORS, Helmet security heade
 
 ## JobGuard Community
 
-Authenticated users can publish factual job-scam experiences, attach their own JobGuardAI scan results, comment, like, bookmark, and report community posts. Public sharing is opt-in and the UI warns users to remove personal information from evidence.
+Authenticated users can publish factual job-scam experiences, attach their own HireGuard AI scan results, comment, like, bookmark, and report community posts. Public sharing is opt-in and the UI warns users to remove personal information from evidence.
 
 Community API base: `/api/v1/community`

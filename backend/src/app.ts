@@ -122,7 +122,7 @@ app.use(
 app.get("/", (_req, res) => {
   res.status(200).json({
     success: true,
-    message: "JobGuard AI API is running",
+    message: "HireGuard AI API is running",
   });
 });
 

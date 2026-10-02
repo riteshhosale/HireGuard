@@ -24,7 +24,7 @@ export default function CookieConsent() {
         <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-indigo-50 text-indigo-600"><Cookie size={18} /></span>
         <div>
           <p className="text-sm font-extrabold text-slate-900">Privacy choices</p>
-          <p className="mt-1 text-[11px] leading-5 text-slate-500">JobGuard uses essential storage to keep you signed in. Optional analytics is only enabled after you allow it. Read our <a href="/privacy" className="font-bold text-indigo-600 hover:underline">Privacy Policy</a>.</p>
+          <p className="mt-1 text-[11px] leading-5 text-slate-500">HireGuard uses essential storage to keep you signed in. Optional analytics is only enabled after you allow it. Read our <a href="/privacy" className="font-bold text-indigo-600 hover:underline">Privacy Policy</a>.</p>
         </div>
       </div>
       <div className="mt-3 flex shrink-0 gap-2 sm:mt-0">

@@ -210,11 +210,11 @@ export async function analyzeEvidenceWithAI(
     buildEvidencePayload(input);
 
   const prompt = `
-You are the AI analysis engine for JobGuard AI.
+You are the AI analysis engine for HireGuard AI.
 
 Your task is to analyze ONLY the evidence provided below.
 
-JobGuard AI is a job scam investigation system.
+HireGuard AI is a job scam investigation system.
 
 IMPORTANT RULES:
 
@@ -256,7 +256,7 @@ IMPORTANT RULES:
 
 10. The final response MUST be valid structured JSON.
 
-Analyze the following JobGuard AI scan evidence:
+Analyze the following HireGuard AI scan evidence:
 
 ${JSON.stringify(evidence, null, 2)}
 

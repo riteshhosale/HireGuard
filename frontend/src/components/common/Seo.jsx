@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 
 const DEFAULT_SITE_URL = "https://job-guardai-musa.vercel.app";
-const SITE_NAME = "JobGuard AI";
-const DEFAULT_DESCRIPTION = "JobGuard AI investigates job postings for suspicious redirects, unsafe URLs, credential collection and other job-scam signals.";
+const SITE_NAME = "HireGuard AI";
+const DEFAULT_DESCRIPTION = "HireGuard AI investigates job postings for suspicious redirects, unsafe URLs, credential collection and other job-scam signals.";
 
 function upsertMeta(attribute, key, content) {
   if (!content) return;
@@ -60,7 +60,7 @@ export default function Seo({
     upsertMeta("property", "og:url", canonical);
     upsertMeta("property", "og:site_name", SITE_NAME);
     upsertMeta("property", "og:image", `${siteUrl}/og-image.png`);
-    upsertMeta("property", "og:image:alt", "JobGuard AI web security dashboard");
+    upsertMeta("property", "og:image:alt", "HireGuard AI web security dashboard");
     upsertMeta("name", "twitter:card", "summary_large_image");
     upsertMeta("name", "twitter:title", fullTitle);
     upsertMeta("name", "twitter:description", description);

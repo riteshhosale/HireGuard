@@ -46,7 +46,7 @@ export default function Sidebar({ open, onClose }) {
             </span>
             <span>
               <span className="block font-display text-[17px] font-extrabold tracking-tight text-slate-900">
-                JobGuard<span className="text-indigo-600">AI</span>
+                HireGuard<span className="text-indigo-600">AI</span>
               </span>
               <span className="block text-[9px] font-bold uppercase tracking-[0.18em] text-slate-400">
                 Security console
@@ -111,7 +111,7 @@ export default function Sidebar({ open, onClose }) {
             </>
           )}
           <div className="border-t border-slate-100 pt-3">
-            <p className="px-3 text-[10px] leading-4 text-slate-400">JobGuard AI · Web security workspace</p>
+            <p className="px-3 text-[10px] leading-4 text-slate-400">HireGuard AI · Web security workspace</p>
           </div>
         </div>
       </aside>

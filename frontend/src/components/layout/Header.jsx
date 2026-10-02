@@ -37,7 +37,7 @@ export default function Header({ onMenu }) {
         </button>
 
         <div className="hidden min-w-0 flex-1 md:block">
-          <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-slate-400">JobGuard workspace</p>
+          <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-slate-400">HireGuard workspace</p>
           <p className="truncate text-sm font-extrabold text-slate-800">AI Job Safety Console</p>
         </div>
 

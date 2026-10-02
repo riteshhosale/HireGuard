@@ -10,8 +10,8 @@ export default function AuthPage({ mode }) {
   const isSignup = (mode || params.get("mode") || "login") === "signup";
   const seoTitle = isSignup ? "Create your account" : "Sign in";
   const seoDescription = isSignup
-    ? "Create a JobGuard AI account to investigate job postings and review security reports."
-    : "Sign in to JobGuard AI to continue investigating job postings and reviewing security reports.";
+    ? "Create a HireGuard AI account to investigate job postings and review security reports."
+    : "Sign in to HireGuard AI to continue investigating job postings and reviewing security reports.";
   return (
     <Layout variant="auth">
       <Seo
@@ -28,7 +28,7 @@ export default function AuthPage({ mode }) {
             </span>
             <span>
               <span className="block font-display text-xl font-bold">
-                JobGuard<span className="text-indigo-200">AI</span>
+                HireGuard<span className="text-indigo-200">AI</span>
               </span>
               <span className="block text-[9px] font-bold uppercase tracking-[0.18em] text-indigo-200">
                 Security console
@@ -60,7 +60,7 @@ export default function AuthPage({ mode }) {
             </div>
           </div>
           <p className="text-[10px] text-indigo-200">
-            JobGuard AI · Web security workspace
+            HireGuard AI · Web security workspace
           </p>
         </section>
         <section className="flex items-center justify-center p-5 sm:p-10">

@@ -1,6 +1,6 @@
-# JobGuard AI
+# HireGuard AI
 
-JobGuard AI is a web security application for investigating public job postings and identifying suspicious redirects, unsafe URLs, credential collection flows, payment-related signals, and other job-scam indicators.
+HireGuard AI is a web security application for investigating public job postings and identifying suspicious redirects, unsafe URLs, credential collection flows, payment-related signals, and other job-scam indicators.
 
 ## Public pages
 - https://job-guardai-musa.vercel.app/ — product overview and primary call to action.
