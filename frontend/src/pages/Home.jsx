@@ -130,9 +130,9 @@ export default function Home() {
           path="/"
           schema={localBusinessSchema}
         />
-        <div className="page-enter mx-auto max-w-[1280px]">
+        <div className="page-enter mx-auto max-w-7xl">
           <div className="grid gap-5 lg:grid-cols-[1.45fr_.75fr]">
-            <section className="dashboard-card relative overflow-hidden bg-gradient-to-br from-indigo-600 via-indigo-600 to-violet-700 p-7 text-white sm:p-10">
+            <section className="dashboard-card relative overflow-hidden bg-linear-to-br from-indigo-600 via-indigo-600 to-violet-700 p-7 text-white sm:p-10">
               <div className="absolute -right-20 -top-20 h-60 w-60 rounded-full bg-white/10 blur-2xl" />
               <div className="relative max-w-2xl">
                 <span className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.16em] text-indigo-100">
@@ -247,7 +247,7 @@ export default function Home() {
         path="/"
         noindex
       />
-      <div className="page-enter mx-auto max-w-[1280px]">
+      <div className="page-enter mx-auto max-w-7xl">
         <div className="mb-5 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
             <p className="text-[10px] font-extrabold uppercase tracking-[0.18em] text-slate-400">
