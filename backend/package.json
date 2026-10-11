@@ -8,7 +8,8 @@
     "build": "tsc",
     "start": "node dist/server.js",
     "typecheck": "tsc --noEmit",
-    "test:api": "tsx test-api-suite.ts"
+    "test:api": "tsx test-api-suite.ts",
+    "test:job-post": "tsx test-job-post.ts"
   },
   "keywords": [],
   "author": "",
