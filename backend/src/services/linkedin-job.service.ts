@@ -112,7 +112,7 @@ async function extractPublicLinkedInPage(url: string): Promise<ExtractedJob> {
   let current = new URL(url);
   const dnsCache = new Map<string, Promise<void>>();
   for (let redirect = 0; redirect <= 3; redirect += 1) {
-    const host = current.hostname.toLowerCase().replace(/^www\\./, "");
+    const host = current.hostname.toLowerCase().replace(/^www\./, "");
     if (host !== "linkedin.com") {
       throw new Error("LinkedIn redirected to a different domain; extraction was stopped for safety.");
     }
@@ -145,7 +145,7 @@ async function extractPublicLinkedInPage(url: string): Promise<ExtractedJob> {
       const html = await readLimitedHtml(response);
       const structured = extractJobPostingJsonLd(html);
       return {
-        title: structured.title || meta(html, "og:title") || clean(html.match(/<title[^>]*>([\\s\\S]*?)<\\/title>/i)?.[1]),
+        title: structured.title || meta(html, "og:title") || clean(html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1]),
         company: structured.company || meta(html, "job:company") || undefined,
         description: structured.description || meta(html, "og:description") || meta(html, "description"),
         applicationUrl: structured.applicationUrl || meta(html, "job:apply_url"),
