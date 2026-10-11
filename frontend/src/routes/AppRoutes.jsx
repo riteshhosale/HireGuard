@@ -5,6 +5,7 @@ import Protected from "./Protected";
 const Home = lazy(() => import("../pages/Home"));
 const AuthPage = lazy(() => import("../pages/AuthPage"));
 const Scan = lazy(() => import("../pages/Scan"));
+const JobPostScan = lazy(() => import("../pages/JobPostScan"));
 const Report = lazy(() => import("../pages/Report"));
 const History = lazy(() => import("../pages/History"));
 const Profile = lazy(() => import("../pages/Profile"));
@@ -27,6 +28,7 @@ export default function AppRoutes() {
         <Route path="/login" element={<AuthPage mode="login" />} />
         <Route path="/signup" element={<AuthPage mode="signup" />} />
         <Route path="/scan" element={<Protected><Scan /></Protected>} />
+        <Route path="/job-post-scan" element={<Protected><JobPostScan /></Protected>} />
         <Route path="/report/:scanId" element={<Protected><Report /></Protected>} />
         <Route path="/history" element={<Protected><History /></Protected>} />
         <Route path="/profile" element={<Protected><Profile /></Protected>} />
