@@ -69,12 +69,10 @@ function extractJobPostingJsonLd(html: string): ExtractedJob {
           const organization = job.hiringOrganization && typeof job.hiringOrganization === "object"
             ? (job.hiringOrganization as Record<string, unknown>)
             : undefined;
-          const apply = typeof job.url === "string" ? job.url : undefined;
           return {
             title: typeof job.title === "string" ? clean(job.title) : undefined,
             company: typeof organization?.name === "string" ? clean(organization.name) : undefined,
             description: typeof job.description === "string" ? clean(job.description) : undefined,
-            applicationUrl: apply,
           };
         }
       }
