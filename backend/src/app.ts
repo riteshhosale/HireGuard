@@ -13,6 +13,7 @@ import reportRoutes from "./routes/report.routes.js";
 import evidenceRoutes from "./routes/evidence.routes.js";
 import aiRoutes from "./routes/ai.routes.js";
 import communityRoutes from "./routes/community.routes.js";
+import jobPostRoutes from "./routes/job-post.routes.js";
 import { errorMiddleware } from "./middleware/error.middleware.js";
 
 const app = express();
@@ -84,40 +85,14 @@ app.use(
   }),
 );
 
-app.use(
-  "/api/v1/health",
-  healthRoutes,
-);
-
-app.use(
-  "/api/v1/auth",
-  authRoutes,
-);
-
-app.use(
-  "/api/v1/scans",
-  scanRoutes,
-);
-
-app.use(
-  "/api/v1/reports",
-  reportRoutes,
-);
-
-app.use(
-  "/api/v1/scans",
-  evidenceRoutes,
-);
-
-app.use(
-  "/api/v1/ai",
-  aiRoutes,
-);
-
-app.use(
-  "/api/v1/community",
-  communityRoutes,
-);
+app.use("/api/v1/health", healthRoutes);
+app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/scans", scanRoutes);
+app.use("/api/v1/reports", reportRoutes);
+app.use("/api/v1/scans", evidenceRoutes);
+app.use("/api/v1/ai", aiRoutes);
+app.use("/api/v1/community", communityRoutes);
+app.use("/api/v1/job-posts", jobPostRoutes);
 
 app.get("/", (_req, res) => {
   res.status(200).json({
