@@ -1,9 +1,4 @@
-import type {
-  Request,
-  Response,
-  NextFunction,
-} from "express";
-
+import type { Request, Response, NextFunction } from "express";
 import { logger } from "../utils/logger.js";
 
 export function errorMiddleware(
@@ -13,37 +8,24 @@ export function errorMiddleware(
   _next: NextFunction,
 ): void {
   logger.error(
-    {
-      error,
-      method: req.method,
-      path: req.originalUrl,
-    },
+    { error, method: req.method, path: req.originalUrl },
     "Unhandled application error",
   );
 
-  if (res.headersSent) {
-    return;
-  }
+  if (res.headersSent) return;
 
   let statusCode = 500;
   let message = "Internal server error";
-
-  if (error instanceof Error) {
-    message = error.message;
-  }
 
   if (
     typeof error === "object" &&
     error !== null &&
     "name" in error &&
-    (error.name === "ValidationError" ||
-      error.name === "ZodError")
+    (error.name === "ValidationError" || error.name === "ZodError")
   ) {
     statusCode = 400;
     message = "Validation error";
-  }
-
-  if (
+  } else if (
     typeof error === "object" &&
     error !== null &&
     "name" in error &&
@@ -51,9 +33,7 @@ export function errorMiddleware(
   ) {
     statusCode = 400;
     message = "Invalid request data";
-  }
-
-  if (
+  } else if (
     typeof error === "object" &&
     error !== null &&
     "code" in error &&
@@ -61,16 +41,15 @@ export function errorMiddleware(
   ) {
     statusCode = 409;
     message = "Duplicate resource";
+  } else if (process.env.NODE_ENV !== "production" && error instanceof Error) {
+    message = error.message;
   }
 
   res.status(statusCode).json({
     success: false,
     message,
-    ...(process.env.NODE_ENV !== "production" &&
-    error instanceof Error
-      ? {
-          error: error.name,
-        }
+    ...(process.env.NODE_ENV !== "production" && error instanceof Error
+      ? { error: error.name }
       : {}),
   });
 }
