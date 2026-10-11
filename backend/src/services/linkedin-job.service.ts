@@ -3,7 +3,7 @@ import type { AnalyzeJobPostInput } from "../schemas/job-post.schema.js";
 import { JobPostAnalysis } from "../models/job-post-analysis.model.js";
 import { analyzeJobRisk } from "./job-risk.service.js";
 
-const MAX_HTML_CHARS = 1_000_000;
+const MAX_HTML_BYTES = 1_000_000;
 const FETCH_TIMEOUT_MS = 8_000;
 
 type ExtractedJob = {
@@ -83,20 +83,44 @@ function extractJobPostingJsonLd(html: string): ExtractedJob {
   return {};
 }
 
+async function readLimitedHtml(response: Response): Promise<string> {
+  if (!response.body) return "";
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  let totalBytes = 0;
+  let html = "";
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      totalBytes += value.byteLength;
+      if (totalBytes > MAX_HTML_BYTES) {
+        await reader.cancel();
+        throw new Error("LinkedIn page exceeded the 1 MB extraction limit. Paste the job description to continue.");
+      }
+      html += decoder.decode(value, { stream: true });
+    }
+    html += decoder.decode();
+    return html;
+  } finally {
+    reader.releaseLock();
+  }
+}
+
 async function extractPublicLinkedInPage(url: string): Promise<ExtractedJob> {
   let current = new URL(url);
   const dnsCache = new Map<string, Promise<void>>();
   for (let redirect = 0; redirect <= 3; redirect += 1) {
-    const host = current.hostname.toLowerCase().replace(/^www\./, "");
+    const host = current.hostname.toLowerCase().replace(/^www\\./, "");
     if (host !== "linkedin.com") {
       throw new Error("LinkedIn redirected to a different domain; extraction was stopped for safety.");
     }
     await assertPublicHttpUrl(current.toString(), dnsCache);
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
-    let response: Response;
     try {
-      response = await fetch(current, {
+      const response = await fetch(current, {
         method: "GET",
         redirect: "manual",
         signal: controller.signal,
@@ -105,28 +129,30 @@ async function extractPublicLinkedInPage(url: string): Promise<ExtractedJob> {
           accept: "text/html,application/xhtml+xml",
         },
       });
+
+      if ([301, 302, 303, 307, 308].includes(response.status)) {
+        const location = response.headers.get("location");
+        await response.body?.cancel().catch(() => undefined);
+        if (!location || redirect === 3) throw new Error("LinkedIn redirected too many times.");
+        current = new URL(location, current);
+        continue;
+      }
+      if (!response.ok) {
+        await response.body?.cancel().catch(() => undefined);
+        throw new Error("LinkedIn did not provide a public job page (HTTP " + response.status + "). Paste the job description to continue.");
+      }
+
+      const html = await readLimitedHtml(response);
+      const structured = extractJobPostingJsonLd(html);
+      return {
+        title: structured.title || meta(html, "og:title") || clean(html.match(/<title[^>]*>([\\s\\S]*?)<\\/title>/i)?.[1]),
+        company: structured.company || meta(html, "job:company") || undefined,
+        description: structured.description || meta(html, "og:description") || meta(html, "description"),
+        applicationUrl: structured.applicationUrl || meta(html, "job:apply_url"),
+      };
     } finally {
       clearTimeout(timer);
     }
-
-    if ([301, 302, 303, 307, 308].includes(response.status)) {
-      const location = response.headers.get("location");
-      if (!location || redirect === 3) throw new Error("LinkedIn redirected too many times.");
-      current = new URL(location, current);
-      continue;
-    }
-    if (!response.ok) {
-      throw new Error("LinkedIn did not provide a public job page (HTTP " + response.status + "). Paste the job description to continue.");
-    }
-
-    const html = (await response.text()).slice(0, MAX_HTML_CHARS);
-    const structured = extractJobPostingJsonLd(html);
-    return {
-      title: structured.title || meta(html, "og:title") || clean(html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1]),
-      company: structured.company || meta(html, "job:company") || undefined,
-      description: structured.description || meta(html, "og:description") || meta(html, "description"),
-      applicationUrl: structured.applicationUrl || meta(html, "job:apply_url"),
-    };
   }
   throw new Error("Unable to retrieve a public LinkedIn job page.");
 }
