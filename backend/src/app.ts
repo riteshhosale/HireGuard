@@ -56,7 +56,6 @@ app.use(
 
       if (
         allowedOrigins.has(cleanOrigin) ||
-        allowedOrigins.has("*") ||
         isLocalDevelopmentOrigin
       ) {
         callback(null, true);
