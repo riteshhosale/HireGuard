@@ -2,7 +2,7 @@
 
 > AI-assisted job-scam and suspicious-website detection platform with automated scanning, evidence collection, risk analysis, and a community for sharing job-scam experiences.
 
-[![CI](https://github.com/riteshhosale/HireGuard/actions/workflows/<!-- CI_FILE -->/badge.svg)](https://github.com/riteshhosale/HireGuard/actions/workflows/<!-- CI_FILE -->)
+[![CI](https://github.com/riteshhosale/HireGuard/actions/workflows/ci.yml/badge.svg)](https://github.com/riteshhosale/HireGuard/actions/workflows/ci.yml)
 [![License](https://img.shields.io/badge/License-<!-- LICENSE -->-blue.svg)](./LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](./CONTRIBUTING.md)
 [![Frontend](https://img.shields.io/badge/Frontend-React%20%2B%20Vite-61DAFB?logo=react&logoColor=white)](https://react.dev/)
@@ -16,17 +16,10 @@
 
 ## 🎬 Demo
 
-- **Live app:** <!-- DEMO_URL -->
-- **API health:** <!-- API_URL -->/health
-- **Demo video:** <!-- VIDEO_URL -->
+- **Live app:** https://job-guard-ai-i4od.vercel.app/
+- **API health endpoint:** https://jobguard-backend-6luk.onrender.com/api/v1/health
 
-### Screenshots
-
-| Landing | Scan report | Community |
-|---|---|---|
-| ![Landing](<!-- SCREENSHOT_LANDING -->) | ![Report](<!-- SCREENSHOT_REPORT -->) | ![Community](<!-- SCREENSHOT_COMMUNITY -->) |
-
-> 💡 Add a 30–60s GIF at the top of this README showing: submit URL → scan → risk report.
+> The links above are configured deployment addresses; availability and production environment settings should be verified in Vercel and Render.
 
 ---
 
