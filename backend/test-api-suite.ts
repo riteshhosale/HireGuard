@@ -328,6 +328,27 @@ async function runTests() {
   await test("Evidence", "Get scan findings without token fails", "GET", "/api/v1/scans/scan_test_123/findings", 401);
   await test("Evidence", "Get scan findings with valid token succeeds", "GET", "/api/v1/scans/scan_test_123/findings", 200, authHeader);
 
+
+  // 10. LINKEDIN JOB POST SCANNER
+  console.log("\n--- [10] LINKEDIN JOB POST SCANNER ---");
+  await test("Job posts", "Analyze job post without token fails", "POST", "/api/v1/job-posts/analyze", 401, {}, {
+    url: "https://www.linkedin.com/jobs/view/123456789/",
+    description: "Software Engineer",
+  });
+  await test("Job posts", "List job post analyses without token fails", "GET", "/api/v1/job-posts", 401);
+  await test("Job posts", "Reject non-LinkedIn URL", "POST", "/api/v1/job-posts/analyze", 400, authHeader, {
+    url: "https://example.com/jobs/view/123456789/",
+    description: "Software Engineer",
+  });
+  await test("Job posts", "Reject non-job LinkedIn URL", "POST", "/api/v1/job-posts/analyze", 400, authHeader, {
+    url: "https://www.linkedin.com/in/someone/",
+    description: "Software Engineer",
+  });
+  await test("Job posts", "Reject HTTP LinkedIn URL", "POST", "/api/v1/job-posts/analyze", 400, authHeader, {
+    url: "http://www.linkedin.com/jobs/view/123456789/",
+    description: "Software Engineer",
+  });
+
   // 9. AI ANALYSIS
   console.log("\n--- [9] AI ANALYSIS ---");
   await test("AI", "Analyze scan without token fails", "POST", "/api/v1/ai/analyze/scan_test_123", 401);
