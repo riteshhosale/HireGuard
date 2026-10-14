@@ -32,6 +32,7 @@ const allowedOrigins = new Set([
       ]
     : []),
   "https://job-guardai-musa.vercel.app",
+  "https://job-guard-ai-i4od.vercel.app",
 ]);
 
 app.use(
