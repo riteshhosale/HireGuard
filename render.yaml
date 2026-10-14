@@ -3,7 +3,7 @@ services:
     name: jobguard-backend
     runtime: docker
     branch: main
-    autoDeployTrigger: commit
+    autoDeploy: true
     dockerfilePath: backend/Dockerfile
     dockerContext: backend
     plan: free
