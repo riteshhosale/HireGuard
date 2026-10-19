@@ -110,13 +110,12 @@ async function readLimitedHtml(response: Response): Promise<string> {
 
 async function extractPublicLinkedInPage(url: string): Promise<ExtractedJob> {
   let current = new URL(url);
-  const dnsCache = new Map<string, Promise<void>>();
-  for (let redirect = 0; redirect <= 3; redirect += 1) {
+    for (let redirect = 0; redirect <= 3; redirect += 1) {
     const host = current.hostname.toLowerCase().replace(/^www\./, "");
     if (host !== "linkedin.com") {
       throw new Error("LinkedIn redirected to a different domain; extraction was stopped for safety.");
     }
-    await assertPublicHttpUrl(current.toString(), dnsCache);
+    await assertPublicHttpUrl(current.toString());
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
     try {
