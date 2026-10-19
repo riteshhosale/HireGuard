@@ -93,17 +93,24 @@ export async function scanUrl(
 ): Promise<ScanEvidence> {
   await assertPublicHttpUrl(initialUrl);
 
-  const browser = await getBrowser();
+  // Reserve capacity before allocating browser resources. The slot is released
+  // even if browser launch, context/page setup, routing, or navigation fails.
+  await acquireScanSlot();
 
-  const context =
-    await browser.newContext({
+  let context: import("playwright").BrowserContext | undefined;
+  let page: import("playwright").Page | undefined;
+
+  try {
+    const browser = await getBrowser();
+    const scanContext = await browser.newContext({
       serviceWorkers: "block",
     });
+    context = scanContext;
 
-  const page =
-    await context.newPage();
+    const scanPage = await scanContext.newPage();
+    page = scanPage;
 
-  await page.route(
+  await scanPage.route(
     "**/*",
     async (route) => {
       const requestUrl =
@@ -136,11 +143,11 @@ export async function scanUrl(
     },
   );
 
-  page.setDefaultTimeout(
+  scanPage.setDefaultTimeout(
     PAGE_TIMEOUT,
   );
 
-  page.setDefaultNavigationTimeout(
+  scanPage.setDefaultNavigationTimeout(
     PAGE_TIMEOUT,
   );
 
@@ -165,7 +172,7 @@ export async function scanUrl(
     network.push(event);
   };
 
-  page.on(
+  scanPage.on(
     "request",
     (request) => {
       addNetworkEvent({
@@ -186,7 +193,7 @@ export async function scanUrl(
     },
   );
 
-  page.on(
+  scanPage.on(
     "response",
     (response) => {
       addNetworkEvent({
@@ -210,7 +217,7 @@ export async function scanUrl(
     },
   );
 
-  page.on(
+  scanPage.on(
     "requestfailed",
     (request) => {
       addNetworkEvent({
@@ -237,12 +244,12 @@ export async function scanUrl(
     },
   );
 
-  page.on(
+  scanPage.on(
     "framenavigated",
     (frame) => {
       if (
         frame !==
-        page.mainFrame()
+        scanPage.mainFrame()
       ) {
         return;
       }
@@ -273,10 +280,7 @@ export async function scanUrl(
     },
   );
 
-  await acquireScanSlot();
-
-  try {
-    await page.goto(
+    await scanPage.goto(
       initialUrl,
       {
         waitUntil:
@@ -287,7 +291,7 @@ export async function scanUrl(
       },
     );
 
-    await page.waitForTimeout(
+    await scanPage.waitForTimeout(
       POST_LOAD_WAIT,
     );
 
@@ -305,7 +309,7 @@ export async function scanUrl(
     const pageEvidence:
       PageEvidence = {
         url:
-          page.url(),
+          scanPage.url(),
 
         title:
           domEvidence.title,
@@ -336,7 +340,7 @@ export async function scanUrl(
       initialUrl,
 
       finalUrl:
-        page.url(),
+        scanPage.url(),
 
       pages: [
         pageEvidence,
@@ -344,13 +348,15 @@ export async function scanUrl(
     };
   } finally {
     try {
-      await page.close();
+      await page?.close();
     } catch {
+      // Cleanup must not hide the scan's original error.
     }
 
     try {
-      await context.close();
+      await context?.close();
     } catch {
+      // Cleanup must not hide the scan's original error.
     }
 
     releaseScanSlot();
