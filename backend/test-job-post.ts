@@ -2,10 +2,18 @@ import assert from "node:assert/strict";
 import { analyzeJobRisk } from "./src/services/job-risk.service.js";
 import { analyzeJobPostSchema } from "./src/schemas/job-post.schema.js";
 import { extractJobPostingJsonLd } from "./src/services/linkedin-job.service.js";
+import { detectSuspiciousRedirect } from "./src/rules/redirect.rule.js";
 
 function hasFinding(result: ReturnType<typeof analyzeJobRisk>, code: string) {
   return result.findings.some((finding) => finding.code === code);
 }
+
+// Hostname normalization avoids flagging a www-to-apex redirect as a cross-domain redirect.
+const redirectBase = {
+  title: "Example", text: "", forms: [], network: [], stopGuard: { triggered: false },
+};
+assert.equal(detectSuspiciousRedirect({ page: { ...redirectBase, url: "https://www.example.com/job", redirects: [{ from: "https://www.example.com/job", to: "https://example.com/job", timestamp: new Date().toISOString() }] } }).length, 0);
+assert.equal(detectSuspiciousRedirect({ page: { ...redirectBase, url: "https://example.com/job", redirects: [{ from: "https://example.com/job", to: "https://careers.example.net/job", timestamp: new Date().toISOString() }] } }).length, 1);
 
 // Risk scoring: payment, sensitive information, urgency, and unrealistic earnings.
 const suspicious = analyzeJobRisk({
