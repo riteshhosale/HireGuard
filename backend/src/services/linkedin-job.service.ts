@@ -52,7 +52,7 @@ function meta(html: string, key: string): string | undefined {
   return undefined;
 }
 
-function extractJobPostingJsonLd(html: string): ExtractedJob {
+export function extractJobPostingJsonLd(html: string): ExtractedJob {
   for (const match of html.matchAll(/<script\b[^>]*type\s*=\s*["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)) {
     try {
       const parsed: unknown = JSON.parse(match[1] || "");
@@ -73,6 +73,13 @@ function extractJobPostingJsonLd(html: string): ExtractedJob {
             title: typeof job.title === "string" ? clean(job.title) : undefined,
             company: typeof organization?.name === "string" ? clean(organization.name) : undefined,
             description: typeof job.description === "string" ? clean(job.description) : undefined,
+            // Some publishers add a non-standard applicationUrl/applyUrl field to JobPosting JSON-LD.
+            // Do not treat the standard `url` (the listing URL) as an application destination.
+            applicationUrl: typeof job.applicationUrl === "string"
+              ? clean(job.applicationUrl)
+              : typeof job.applyUrl === "string"
+                ? clean(job.applyUrl)
+                : undefined,
           };
         }
       }
