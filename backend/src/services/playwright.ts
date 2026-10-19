@@ -24,6 +24,7 @@ const POST_LOAD_WAIT = 250;
 const MAX_NETWORK_EVENTS = 5_000;
 
 const MAX_CONCURRENT_SCANS = 3;
+const MAX_QUEUED_SCANS = 12;
 
 const SKIPPED_RESOURCE_TYPES = new Set([
   "image",
@@ -69,6 +70,10 @@ async function acquireScanSlot(): Promise<void> {
   if (activeScans < MAX_CONCURRENT_SCANS) {
     activeScans += 1;
     return;
+  }
+
+  if (scanWaiters.length >= MAX_QUEUED_SCANS) {
+    throw new Error("Scanner is busy. Please retry in a short while.");
   }
 
   await new Promise<void>((resolve) => {
