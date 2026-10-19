@@ -118,7 +118,11 @@ function blockedIp(address: string): boolean {
 }
 
 export function isBlockedHostname(value: string): boolean {
-  const hostname = value.toLowerCase().replace(/\.$/, "");
+  const normalized = value.toLowerCase().replace(/\.$/, "");
+  // WHATWG URL.hostname keeps brackets around IPv6 literals.
+  const hostname = normalized.startsWith("[") && normalized.endsWith("]")
+    ? normalized.slice(1, -1)
+    : normalized;
 
   return (
     BLOCKED_HOSTNAMES.has(hostname) ||
