@@ -37,6 +37,14 @@ const shortened = analyzeJobRisk({ applicationUrl: "https://bit.ly/example-job",
 assert.ok(hasFinding(shortened, "SHORTENED_APPLICATION_LINK"));
 const malformed = analyzeJobRisk({ applicationUrl: "not a url", companyName: "Example Ltd" });
 assert.ok(hasFinding(malformed, "INVALID_APPLICATION_LINK"));
+for (const applicationUrl of [
+  "javascript:alert(1)",
+  "data:text/html,<script>alert(1)</script>",
+  "https://user:password@example.com/apply",
+]) {
+  const unsafe = analyzeJobRisk({ applicationUrl, companyName: "Example Ltd" });
+  assert.ok(hasFinding(unsafe, "INVALID_APPLICATION_LINK"), applicationUrl);
+}
 
 // Only HTTPS LinkedIn job URLs are accepted; hostname lookalikes are rejected.
 const validUrls = [
