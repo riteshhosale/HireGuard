@@ -3,7 +3,7 @@ import type { RuleFinding } from "./types.js";
 
 function getHostname(url: string): string | null {
   try {
-    return new URL(url).hostname;
+    return new URL(url).hostname.toLowerCase().replace(/\.$/, "").replace(/^www\./, "");
   } catch {
     return null;
   }
