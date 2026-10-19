@@ -106,6 +106,14 @@ function blockedIp(address: string): boolean {
     return blockedIpv4(ipv4);
   }
 
+  // Deprecated IPv4-compatible IPv6 addresses (for example, ::127.0.0.1)
+  // can otherwise bypass checks that only recognize IPv4-mapped addresses.
+  const isIpv4Compatible = groups.slice(0, 6).every((group) => group === 0);
+  if (isIpv4Compatible) {
+    const ipv4 = `${(groups[6] ?? 0) >> 8}.${(groups[6] ?? 0) & 0xff}.${(groups[7] ?? 0) >> 8}.${(groups[7] ?? 0) & 0xff}`;
+    return blockedIpv4(ipv4);
+  }
+
   return isLoopback || isUnspecified || isPrivate || isLinkLocal || (groups[0] ?? 0) >= 0xff00;
 }
 
