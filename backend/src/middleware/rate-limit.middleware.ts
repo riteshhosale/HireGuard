@@ -4,9 +4,19 @@ type Bucket = { count: number; resetAt: number };
 
 const buckets = new Map<string, Bucket>();
 
+function pruneExpiredBuckets(now: number): void {
+  for (const [key, bucket] of buckets) {
+    if (bucket.resetAt <= now) buckets.delete(key);
+  }
+}
+
 export function rateLimit(options: { windowMs: number; max: number; name: string }) {
   return (req: Request, res: Response, next: NextFunction) => {
     const now = Date.now();
+    // ponytail: prune on requests rather than adding a timer; high-cardinality IPs may still
+    // cause one linear cleanup pass. Use a shared store for multi-instance production limits.
+    pruneExpiredBuckets(now);
+
     const ip = req.ip || req.socket.remoteAddress || "unknown";
     const key = `${options.name}:${ip}`;
     const current = buckets.get(key);
@@ -14,6 +24,7 @@ export function rateLimit(options: { windowMs: number; max: number; name: string
     if (!current || current.resetAt <= now) {
       buckets.set(key, { count: 1, resetAt: now + options.windowMs });
       res.setHeader("X-RateLimit-Limit", options.max);
+      res.setHeader("X-RateLimit-Remaining", Math.max(0, options.max - 1));
       return next();
     }
 
