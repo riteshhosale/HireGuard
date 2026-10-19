@@ -3,8 +3,14 @@ import type { NextFunction, Request, Response } from "express";
 type Bucket = { count: number; resetAt: number };
 
 const buckets = new Map<string, Bucket>();
+const PRUNE_INTERVAL_MS = 30_000;
+let lastPruneAt = 0;
 
 function pruneExpiredBuckets(now: number): void {
+  // Avoid a full Map scan on every request; high-cardinality traffic would
+  // otherwise turn rate limiting itself into an O(n) hot path per request.
+  if (now - lastPruneAt < PRUNE_INTERVAL_MS) return;
+  lastPruneAt = now;
   for (const [key, bucket] of buckets) {
     if (bucket.resetAt <= now) buckets.delete(key);
   }
@@ -13,8 +19,8 @@ function pruneExpiredBuckets(now: number): void {
 export function rateLimit(options: { windowMs: number; max: number; name: string }) {
   return (req: Request, res: Response, next: NextFunction) => {
     const now = Date.now();
-    // ponytail: prune on requests rather than adding a timer; high-cardinality IPs may still
-    // cause one linear cleanup pass. Use a shared store for multi-instance production limits.
+    // Pruning is throttled to avoid scanning every IP bucket on every request.
+    // Use a shared store for consistent limits across multiple production instances.
     pruneExpiredBuckets(now);
 
     const ip = req.ip || req.socket.remoteAddress || "unknown";
