@@ -76,16 +76,24 @@ async function acquireScanSlot(): Promise<void> {
     throw new Error("Scanner is busy. Please retry in a short while.");
   }
 
+  // The releasing scan transfers its reserved slot to this waiter.
+  // Do not increment activeScans here: the reservation remains held.
   await new Promise<void>((resolve) => {
     scanWaiters.push(resolve);
   });
-
-  activeScans += 1;
 }
 
 function releaseScanSlot(): void {
+  const nextWaiter = scanWaiters.shift();
+
+  if (nextWaiter) {
+    // Hand off the existing slot atomically so a new request cannot jump the
+    // queue between decrementing the count and waking the next waiter.
+    nextWaiter();
+    return;
+  }
+
   activeScans -= 1;
-  scanWaiters.shift()?.();
 }
 
 export async function scanUrl(
