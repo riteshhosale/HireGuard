@@ -436,6 +436,22 @@ export async function listCommentsController(
   next: NextFunction,
 ) {
   try {
+    // Comments are visible only while their parent post is published.
+    // Match getPostController so hidden/removed posts cannot leak comments
+    // through a direct request using a known post ID.
+    const post = await CommunityPost.findOne({
+      _id: req.params.postId,
+      status: "PUBLISHED",
+    }).select("_id").lean();
+
+    if (!post) {
+      res.status(404).json({
+        success: false,
+        message: "Community post not found",
+      });
+      return;
+    }
+
     const comments = await CommunityComment.find({
       postId: req.params.postId,
     })
