@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { analyzeJobRisk } from "./src/services/job-risk.service.js";
 import { analyzeJobPostSchema } from "./src/schemas/job-post.schema.js";
+import { extractJobPostingJsonLd } from "./src/services/linkedin-job.service.js";
 
 function hasFinding(result: ReturnType<typeof analyzeJobRisk>, code: string) {
   return result.findings.some((finding) => finding.code === code);
@@ -23,6 +24,13 @@ const ordinary = analyzeJobRisk({ description: "Software developer role. Apply w
 assert.equal(ordinary.level, "LOW");
 assert.equal(ordinary.score, 0);
 assert.equal(hasFinding(ordinary, "MISSING_COMPANY"), false);
+
+// Application destinations published in JSON-LD should reach risk scoring; the listing URL must not be mistaken for an apply URL.
+const jsonLd = extractJobPostingJsonLd(`<script type="application/ld+json">{"@type":"JobPosting","title":"Engineer","url":"https://www.linkedin.com/jobs/view/123/","applicationUrl":"https://bit.ly/apply-now","hiringOrganization":{"name":"Example Ltd"},"description":"Apply today"}</script>`);
+assert.equal(jsonLd.applicationUrl, "https://bit.ly/apply-now");
+const listingOnly = extractJobPostingJsonLd(`<script type="application/ld+json">{"@type":"JobPosting","url":"https://www.linkedin.com/jobs/view/123/"}</script>`);
+assert.equal(listingOnly.applicationUrl, undefined);
+assert.ok(hasFinding(analyzeJobRisk({ applicationUrl: jsonLd.applicationUrl, companyName: jsonLd.company }), "SHORTENED_APPLICATION_LINK"));
 
 // URL shorteners should be surfaced, and malformed URLs should not crash analysis.
 const shortened = analyzeJobRisk({ applicationUrl: "https://bit.ly/example-job", companyName: "Example Ltd" });
