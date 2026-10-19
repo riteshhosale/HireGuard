@@ -297,7 +297,7 @@ export async function scanUrl(
 
     const domEvidence =
       await collectDomEvidence(
-        page,
+        scanPage,
       );
 
     const stopDecision =
