@@ -40,10 +40,20 @@ export function analyzeJobRisk(input: {
   }
   if (input.applicationUrl) {
     try {
-      const host = new URL(input.applicationUrl).hostname.toLowerCase();
-      const shorteners = ["bit.ly", "tinyurl.com", "t.me", "wa.me", "cutt.ly", "rb.gy"];
-      if (shorteners.some((domain) => host === domain || host.endsWith("." + domain))) {
-        add("SHORTENED_APPLICATION_LINK", "Shortened or messaging application link", "The application link uses a URL shortener or messaging service, so the final destination should be verified before opening.", "HIGH", 15);
+      const applicationUrl = new URL(input.applicationUrl);
+      if (
+        !["http:", "https:"].includes(applicationUrl.protocol) ||
+        !applicationUrl.hostname ||
+        applicationUrl.username ||
+        applicationUrl.password
+      ) {
+        add("INVALID_APPLICATION_LINK", "Unsafe application link format", "The application link must use HTTP or HTTPS, include a hostname, and must not embed credentials.", "HIGH", 15);
+      } else {
+        const host = applicationUrl.hostname.toLowerCase();
+        const shorteners = ["bit.ly", "tinyurl.com", "t.me", "wa.me", "cutt.ly", "rb.gy"];
+        if (shorteners.some((domain) => host === domain || host.endsWith("." + domain))) {
+          add("SHORTENED_APPLICATION_LINK", "Shortened or messaging application link", "The application link uses a URL shortener or messaging service, so the final destination should be verified before opening.", "HIGH", 15);
+        }
       }
     } catch {
       add("INVALID_APPLICATION_LINK", "Application link could not be parsed", "The supplied application link is not a valid URL.", "MEDIUM", 10);
