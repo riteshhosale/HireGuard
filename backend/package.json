@@ -9,7 +9,8 @@
     "start": "node dist/server.js",
     "typecheck": "tsc --noEmit",
     "test:api": "tsx test-api-suite.ts",
-    "test:job-post": "tsx test-job-post.ts"
+    "test:job-post": "tsx test-job-post.ts",
+    "test:url-safety": "tsx --test src/security/url-safety.test.ts"
   },
   "keywords": [],
   "author": "",
