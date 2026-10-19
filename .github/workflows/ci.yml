@@ -56,3 +56,6 @@ jobs:
 
       - name: Test job-post risk analysis and URL validation
         run: npm run test:job-post
+
+      - name: Test SSRF URL safety regressions
+        run: npm run test:url-safety
