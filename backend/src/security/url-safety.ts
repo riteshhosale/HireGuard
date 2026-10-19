@@ -135,7 +135,6 @@ export function isBlockedHostname(value: string): boolean {
 
 export async function assertPublicHttpUrl(
   value: string,
-  cache: Map<string, Promise<void>> = new Map(),
 ): Promise<void> {
   let parsed: URL;
 
@@ -155,18 +154,8 @@ export async function assertPublicHttpUrl(
     throw new Error("Scanner target resolves to a private or local address");
   }
 
-  const existingCheck = cache.get(hostname);
-
-  if (existingCheck) {
-    return existingCheck;
+  const addresses = await dns.lookup(hostname, { all: true, verbatim: true });
+  if (addresses.length === 0 || addresses.some(({ address }) => blockedIp(address))) {
+    throw new Error("Scanner target resolves to a private or local address");
   }
-
-  const check = dns.lookup(hostname, { all: true, verbatim: true }).then((addresses) => {
-    if (addresses.length === 0 || addresses.some(({ address }) => blockedIp(address))) {
-      throw new Error("Scanner target resolves to a private or local address");
-    }
-  });
-
-  cache.set(hostname, check);
-  return check;
 }
