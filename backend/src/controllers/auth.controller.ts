@@ -58,12 +58,19 @@ export async function register(
         ? error.message
         : "Registration failed";
 
+    const isDuplicateKeyError =
+      typeof error === "object" &&
+      error !== null &&
+      "code" in error &&
+      error.code === 11000;
+
     if (
-      message.includes("already exists")
+      message.includes("already exists") ||
+      isDuplicateKeyError
     ) {
       res.status(409).json({
         success: false,
-        message,
+        message: "An account with this email already exists",
       });
 
       return;
