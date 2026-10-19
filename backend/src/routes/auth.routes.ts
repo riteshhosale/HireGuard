@@ -32,6 +32,7 @@ router.post(
 
 router.post(
   "/refresh",
+  rateLimit({ windowMs: 15 * 60 * 1000, max: 30, name: "refresh" }),
   refresh,
 );
 
