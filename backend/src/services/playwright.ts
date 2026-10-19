@@ -86,13 +86,7 @@ function releaseScanSlot(): void {
 export async function scanUrl(
   initialUrl: string,
 ): Promise<ScanEvidence> {
-  const checkedHosts =
-    new Map<string, Promise<void>>();
-
-  await assertPublicHttpUrl(
-    initialUrl,
-    checkedHosts,
-  );
+  await assertPublicHttpUrl(initialUrl);
 
   const browser = await getBrowser();
 
@@ -111,29 +105,26 @@ export async function scanUrl(
         route.request().url();
 
       if (
-        requestUrl.startsWith("http://") ||
-        requestUrl.startsWith("https://")
-      ) {
-        try {
-          await assertPublicHttpUrl(
-            requestUrl,
-            checkedHosts,
-          );
-        } catch {
-          await route.abort(
-            "blockedbyclient",
-          );
-          return;
-        }
-      }
-
-      if (
         SKIPPED_RESOURCE_TYPES.has(
           route.request().resourceType(),
         )
       ) {
         await route.abort("blockedbyclient");
         return;
+      }
+
+      if (
+        requestUrl.startsWith("http://") ||
+        requestUrl.startsWith("https://")
+      ) {
+        try {
+          // Resolve every navigated/requested URL independently. Reusing a
+          // hostname-only DNS cache can hide a changed private DNS answer.
+          await assertPublicHttpUrl(requestUrl);
+        } catch {
+          await route.abort("blockedbyclient");
+          return;
+        }
       }
 
       await route.continue();

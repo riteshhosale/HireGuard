@@ -106,11 +106,23 @@ function blockedIp(address: string): boolean {
     return blockedIpv4(ipv4);
   }
 
+  // Deprecated IPv4-compatible IPv6 addresses (for example, ::127.0.0.1)
+  // can otherwise bypass checks that only recognize IPv4-mapped addresses.
+  const isIpv4Compatible = groups.slice(0, 6).every((group) => group === 0);
+  if (isIpv4Compatible) {
+    const ipv4 = `${(groups[6] ?? 0) >> 8}.${(groups[6] ?? 0) & 0xff}.${(groups[7] ?? 0) >> 8}.${(groups[7] ?? 0) & 0xff}`;
+    return blockedIpv4(ipv4);
+  }
+
   return isLoopback || isUnspecified || isPrivate || isLinkLocal || (groups[0] ?? 0) >= 0xff00;
 }
 
 export function isBlockedHostname(value: string): boolean {
-  const hostname = value.toLowerCase().replace(/\.$/, "");
+  const normalized = value.toLowerCase().replace(/\.$/, "");
+  // WHATWG URL.hostname keeps brackets around IPv6 literals.
+  const hostname = normalized.startsWith("[") && normalized.endsWith("]")
+    ? normalized.slice(1, -1)
+    : normalized;
 
   return (
     BLOCKED_HOSTNAMES.has(hostname) ||
@@ -123,7 +135,6 @@ export function isBlockedHostname(value: string): boolean {
 
 export async function assertPublicHttpUrl(
   value: string,
-  cache: Map<string, Promise<void>> = new Map(),
 ): Promise<void> {
   let parsed: URL;
 
@@ -143,18 +154,8 @@ export async function assertPublicHttpUrl(
     throw new Error("Scanner target resolves to a private or local address");
   }
 
-  const existingCheck = cache.get(hostname);
-
-  if (existingCheck) {
-    return existingCheck;
+  const addresses = await dns.lookup(hostname, { all: true, verbatim: true });
+  if (addresses.length === 0 || addresses.some(({ address }) => blockedIp(address))) {
+    throw new Error("Scanner target resolves to a private or local address");
   }
-
-  const check = dns.lookup(hostname, { all: true, verbatim: true }).then((addresses) => {
-    if (addresses.length === 0 || addresses.some(({ address }) => blockedIp(address))) {
-      throw new Error("Scanner target resolves to a private or local address");
-    }
-  });
-
-  cache.set(hostname, check);
-  return check;
 }
